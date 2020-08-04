@@ -35,4 +35,14 @@ object ControlSyntax {
     if(1 <= age && age <= 6 && !isSchoolStarted) println("幼児です") else println("幼児ではありません")
   }
 
+  def loopFrom0To9(): Unit ={
+    var i = 0
+    do {
+      println(s"i = $i")
+      i = i + 1
+    } while (i < 10)
+  }
+
+  def printRightTriangles(): Unit =
+    for (a <- 1 to 1000;b <- 1 to 1000;c <- 1 to 1000 if a*a == b*b + c*c) println((a, b, c))
 }
