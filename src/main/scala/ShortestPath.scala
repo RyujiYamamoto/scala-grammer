@@ -125,4 +125,31 @@ object ShortestPath {
     println(distances)
     println(distances(goal))
   }
+
+  def solveByWarshallFloyd(start: Char, goal: Char): Unit = {
+    //2点間の距離を保持するMapを作り、初期化する。
+    var distanceMap: Map[Seq[Char], Int] = Map()
+    vertexes.foreach(v =>
+      vertexes.foreach(w =>
+        distanceMap = distanceMap + (Seq(v, w) -> (if (v.equals(w)) 0 else Int.MaxValue / 2))))
+    edges.foreach { e =>
+      distanceMap = distanceMap + (Seq(e.from, e.to) -> e.distance)
+    }
+
+    println(distanceMap)
+
+    vertexes.foreach(ch1 => {
+      vertexes.foreach(ch2 => {
+        vertexes.foreach(ch3 => {
+          val newDist = math.min(distanceMap(Seq(ch1, ch3)), distanceMap(Seq(ch1, ch2)) + distanceMap(Seq(ch2, ch3)))
+          distanceMap = distanceMap + (Seq(ch1, ch3) -> newDist)
+        })
+      })
+    })
+
+    //結果を出力
+    distanceMap.filter(e => e._1.head.equals(start)).foreach(e => print(s"${e._1(1)} -> ${e._2}, "))
+    println("")
+    println(distanceMap(Seq(start, goal)))
+  }
 }
